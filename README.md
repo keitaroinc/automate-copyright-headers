@@ -1,2 +1,2 @@
-# automate-license-headers
-Short script to automate license files and copyright headers
+# automate-copyright-headers
+Short script to automate adding copyright headers to source files. 
