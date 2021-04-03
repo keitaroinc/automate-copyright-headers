@@ -23,8 +23,6 @@ def add_headers(license, year, path, ext, long_comment_start, long_comment_end):
                 f1lines = f1.readlines()
                 f1.close()
 
-                print(f1name)
-
                 # Are there words at the top or at the bottom of
                 # the document that might indicate third party copyright?
                 add_header = True
@@ -39,12 +37,10 @@ def add_headers(license, year, path, ext, long_comment_start, long_comment_end):
                                 break
                         if (add_header == False):
                             break
-                    print(f1lines)
                     if f1lines[-1][-1] == '\n':
                         f1lines.append('\n') # readlines merges blank last line
                                              # with line above
                     for i in range(len(f1lines)-16, len(f1lines)-1):
-                        print(len(f1lines),i, f1lines[i].lower())
                         for keyword in third_party_copyright_indicator_keywords:
                             if (keyword in f1lines[i].lower()):
                                 print (f1name)
@@ -54,6 +50,8 @@ def add_headers(license, year, path, ext, long_comment_start, long_comment_end):
                         if (add_header == False):
                             break
                 else:
+                    if f1lines[-1][-1] == '\n':
+                        f1lines.append('\n')
                     for i in range(0, len(f1lines)-1):
                         for keyword in third_party_copyright_indicator_keywords:
                             if (keyword in f1lines[i].lower()):
@@ -69,8 +67,6 @@ def add_headers(license, year, path, ext, long_comment_start, long_comment_end):
                         print (f1name)
                         print (copyright_warning)
                         add_header = False
-
-                print(add_header)
 
                 # If it doesn't seem like there is an indication of
                 # third party copyright, then add the keitaro copyright
