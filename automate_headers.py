@@ -12,7 +12,8 @@ def add_headers(license, year, path, ext, long_comment_start, long_comment_end):
 
     copyright_line="Copyright (c) "+ year +" Keitaro AB"
     
-    third_party_copyright_indicator_keywords = ["copyright", "license", "author"]
+    third_party_copyright_indicator_keywords = ["copyright", "license", 
+        "author ", "authors ", "author:", "authors:", "author.", "authors."]
 
     # Step through all the files in the current working directory:
     for root, dirs, files in os.walk(path):
@@ -31,8 +32,8 @@ def add_headers(license, year, path, ext, long_comment_start, long_comment_end):
                     for i in range(0, 15):
                         for keyword in third_party_copyright_indicator_keywords:
                             if (keyword in f1lines[i].lower()):
-                                print (f1name)
                                 print (copyright_warning)
+                                print ("found keyword", keyword, "in", f1name)
                                 add_header = False
                                 break
                         if (add_header == False):
@@ -43,29 +44,32 @@ def add_headers(license, year, path, ext, long_comment_start, long_comment_end):
                     for i in range(len(f1lines)-16, len(f1lines)-1):
                         for keyword in third_party_copyright_indicator_keywords:
                             if (keyword in f1lines[i].lower()):
-                                print (f1name)
                                 print (copyright_warning)
+                                print ("found keyword", keyword, "in", f1name)
                                 add_header = False
                                 break
                         if (add_header == False):
                             break
-                else:
+                elif (len(f1lines) > 0 and len(f1lines) <= 15):
                     if f1lines[-1][-1] == '\n':
                         f1lines.append('\n')
                     for i in range(0, len(f1lines)-1):
                         for keyword in third_party_copyright_indicator_keywords:
                             if (keyword in f1lines[i].lower()):
-                                print (f1name)
                                 print (copyright_warning)
+                                print ("found keyword", keyword, "in", f1name)
                                 add_header = False
                                 break
                         if (add_header == False):
                             break
 
+                if (add_header == False):
+                            break
+
                 # Does the path of the file indicate third party copyright?
                 if ("vendor" in f1name or ".min.js" in f1name):
-                        print (f1name)
                         print (copyright_warning)
+                        print ("vendor or min.js in filepath")
                         add_header = False
 
                 # If it doesn't seem like there is an indication of
@@ -95,7 +99,7 @@ def add_headers(license, year, path, ext, long_comment_start, long_comment_end):
                 
 year="2018"
 path = os.getcwd()
-license = "MIT"
+license = "AGPL"
 if (license == "AGPL" or license == "Apache" or license == "MIT"):
     add_headers(license, year, path, ".py", '"""', '"""')
     add_headers(license, year, path, ".js", "/*", "*/")
