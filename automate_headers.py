@@ -28,12 +28,11 @@ def add_headers(license, year, path, target_ext, long_comment_start, long_commen
                 # Are there words at the top or at the bottom of
                 # the document that might indicate third party copyright?
                 add_header = True
-                counts = 0
                 if (len(f1lines) > 15):
                     for i in range(0, 15):
                         for keyword in third_party_copyright_indicator_keywords:
                             if (keyword in f1lines[i].lower()):
-                                print (copyright_warning)
+                                print ('\n', copyright_warning)
                                 print ("found keyword", keyword, "line", i, "in", f1name)
                                 add_header = False
                                 break
@@ -45,19 +44,20 @@ def add_headers(license, year, path, target_ext, long_comment_start, long_commen
                     for i in range(len(f1lines)-16, len(f1lines)-1):
                         for keyword in third_party_copyright_indicator_keywords:
                             if (keyword in f1lines[i].lower()):
-                                print (copyright_warning)
+                                print ('\n', copyright_warning)
                                 print ("found keyword", keyword, "line (-)", i, "in", f1name)
                                 add_header = False
                                 break
                         if (add_header == False):
                             break
+
                 elif (len(f1lines) > 0 and len(f1lines) <= 15):
                     if f1lines[-1][-1] == '\n':
                         f1lines.append('\n')
                     for i in range(0, len(f1lines)-1):
                         for keyword in third_party_copyright_indicator_keywords:
                             if (keyword in f1lines[i].lower()):
-                                print (copyright_warning)
+                                print ('\n', copyright_warning)
                                 print ("found keyword", keyword, "line", i, "in", f1name)
                                 add_header = False
                                 break
@@ -65,11 +65,11 @@ def add_headers(license, year, path, target_ext, long_comment_start, long_commen
                             break
 
                 if (add_header == False):
-                            break
+                            continue
 
                 # Does the path of the file indicate third party copyright?
                 if ("vendor" in f1name or ".min.js" in f1name):
-                        print (copyright_warning)
+                        print ('\n', copyright_warning)
                         print ("vendor or min.js in filepath", f1name)
                         add_header = False
 
